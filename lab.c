@@ -18,6 +18,7 @@ struct lab{
 	Lista * pl;
     Lista * la;
     Lista * aux;
+    Lista * listaAtual;
     int pp, pa, con, laI, plI;
 };
 
@@ -57,7 +58,6 @@ void inicio(){
 	Lab * l = criarLab();
 	inicializar(l);
 	
-
 	
 	movimento(l);
 }
@@ -70,7 +70,7 @@ void inicializar(Lab * l){
 	l->laI = 4;
 	l->plI = 3;
 	l->pa = 4;
-	l->pp = 4;
+	l->pp = 0;
 	
 	//Preecher paredes
 	for(i = 0; i < 11; i++){
@@ -129,16 +129,19 @@ void inicializar(Lab * l){
 	//lista 6
 	escrever_pos(l->l6, 2,0);
 	escrever_pos(l->l6, 4,0);
-	escrever_pos(l->l6, 6,0);
+	escrever_pos(l->l6, 6,1);
 	escrever_pos(l->l6, 7,0);
-	
-	//escrever_pos(l->l7, 5,1);
+	 	
+	escrever_pos(l->l7, 5,1);
 	
 }
 
 void movimento(Lab * l){
 	
 	system("cls");
+	
+	printf("PA: %d\n", l->pa);
+	printf("PP: %d\n", l->pp);
 	//Impressão
 	imprimir(l->pc);
 	imprimir(l->l1);
@@ -159,6 +162,7 @@ void movimento(Lab * l){
 		baixo(l);
 		direita(l);
 		esquerda(l);
+	
 	}else{
 		printf("\n\n\nT E R M I N O U!\n");
 		//destruirLab(l);
@@ -192,25 +196,41 @@ void baixo(Lab * l){
 		}
 }
 void direita(Lab * l){
-	if(ler_pos(l->la, (l->pa)+1) == 0){
-		l->pp = l->pa + 1;
-		escrever_pos(l->la, l->pp, 5);
-		escrever_pos(l->la, l->pa, 0);
-		(l->pa)++;
+	l->pp = l->pa + 1;
+	if(ler_pos(l->listaAtual, (l->pp)) == 0){
+		//l->pp = l->pp + 1;
+		int t = 0;
+		//l->pp = l->pa + 1;
+		escrever_pos(l->listaAtual, l->pp, 5);
+		escrever_pos(l->listaAtual, l->pa, 0);
+		//(l->pa)++;
+		t = l->pa;
+		l->pa = l->pp;
+		l->pp = t;
+		
 		l->aux = l->la;
 		movimento(l);
 	}
+	(l->pp)--;
 }
 
 void esquerda(Lab * l){
-	if(ler_pos(l->la, (l->pa)-1) == 0){
-		l->pp = l->pa - 1;		
-		escrever_pos(l->la, l->pp, 5);
-		escrever_pos(l->la, l->pa, 0);
-		(l->pa)--;
+	l->pp = l->pa - 1;
+	if(ler_pos(l->listaAtual, (l->pp)) == 0){
+		//l->pp = l->pp - 1;
+		int t = 0;
+		//l->pp = l->pa - 1;		
+		escrever_pos(l->listaAtual, l->pp, 5);
+		escrever_pos(l->listaAtual, l->pa, 0);
+		//(l->pa)--;
+		t = l->pa;
+		l->pa = l->pp;
+		l->pp = t-1;
+		
 		l->aux = l->la;
 		movimento(l);
 	}
+	(l->pp)++;
 }
 
 void defPL(Lab * l, int cod){
@@ -220,41 +240,49 @@ void defPL(Lab * l, int cod){
 	        case 1:
 	        	l->laI = 1;
 	        	l->plI = 0;
+	        	l->listaAtual = l->l1;
 	            l->pl = l->pc;
 	            break;
 	        case 2:
 	        	l->laI = 2;
 	        	l->plI = 1;
+	        	l->listaAtual = l->l2;
 	            l->pl = l->l1;
 	            break;
 	        case 3:
 	        	l->laI = 3;
 	        	l->plI = 2;
+	        	l->listaAtual = l->l3;
 	            l->pl = l->l2;
 	            break;
 	        case 4:
 	        	l->laI = 4;
 	        	l->plI = 3;
+	        	l->listaAtual = l->l4;
 	            l->pl = l->l3;
 	            break;
 	        case 5:
 	        	l->laI = 5;
 	        	l->plI = 4;
+	        	l->listaAtual = l->l5;
 	            l->pl = l->l4;
 	            break;
 	        case 6:
 	        	l->laI = 6;
 	        	l->plI = 5;
+	        	l->listaAtual = l->l6;
 	            l->pl = l->l5;
 	            break;
 	        case 7:
 	        	l->laI = 7;
 	        	l->plI = 6;
+	        	l->listaAtual = l->l7;
 	            l->pl = l->l6;
 	            break;
 	        case 8:
 	        	l->laI = 8;
 	        	l->plI = 7;
+	        	l->listaAtual = l->l8;
 	            l->pl = l->l7;
 	            break;
 	        default:
@@ -265,41 +293,49 @@ void defPL(Lab * l, int cod){
 	        case 0:
 	        	l->laI = 0;
 	        	l->plI = 1;
+	        	l->listaAtual = l->pc;
 	            l->pl = l->l1;
 	            break;
 	        case 1:
 	        	l->laI = 1;
 	        	l->plI = 2;
+	        	l->listaAtual = l->l1;
 	            l->pl = l->l2;
 	            break;
 	        case 2:
 	        	l->laI = 2;
 	        	l->plI = 3;
+	        	l->listaAtual = l->l2;
 	            l->pl = l->l3;
 	            break;
 	        case 3:
 	        	l->laI = 3;
 	        	l->plI = 4;
+	        	l->listaAtual = l->l3;
 	            l->pl = l->l4;
 	            break;
 	        case 4:
 	        	l->laI = 4;
 	        	l->plI = 5;
+	        	l->listaAtual = l->l4;
 	            l->pl = l->l5;
 	            break;
 	        case 5:
 	        	l->laI = 5;
 	        	l->plI = 6;
+	        	l->listaAtual = l->l5;
 	            l->pl = l->l6;
 	            break;
 	        case 6:
 	        	l->laI = 6;
 	        	l->plI = 7;
+	        	l->listaAtual = l->l6;
 	            l->pl = l->l7;
 	            break;
 	        case 7:
 	        	l->laI = 7;
 	        	l->plI = 8;
+	        	l->listaAtual = l->l7;
 	            l->pl = l->l8;
 	            break;
 	        default:
